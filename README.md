@@ -4,7 +4,7 @@
 # Plan2Explore    
 
 ARXIV   
-[![Paper](http://img.shields.io/badge/arxiv-math.co:1480.1111-B31B1B.svg)](https://arxiv.org/pdf/2005.05960.pdf)
+[![Paper](http://img.shields.io/badge/arxiv-math.co:2005.05960.svg)](https://arxiv.org/pdf/2005.05960.pdf)
 
 
 </div>
@@ -16,19 +16,19 @@ Implementation of the Plan2Expore algorithm
 First, install dependencies   
 ```bash
 # clone project   
-git clone https://github.com/YourGithubName/Your-project-name   
+git clone https://github.com/Gregory-Eales/Plan2Explore  
 
 # install project   
-cd Your-project-name 
+cd Plan2Explore 
 pip install -e .   
 pip install -r requirements.txt
  ```   
- Next, navigate to [Your Main Contribution (MNIST here)] and run it.   
+ Next, navigate to plan2explore and run it.   
  ```bash
 # module folder
 cd src/    
 
-# run module (example: mnist as your main contribution)   
+# run module
 python run.py    
 ```
 
