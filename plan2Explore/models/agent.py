@@ -12,13 +12,14 @@ from argparse import ArgumentParser
 import pytorch_lightning as pl
 
 
-class CoolSystem(pl.LightningModule):
+class Agent(pl.LightningModule):
 
     def __init__(self, hparams):
-        super(CoolSystem, self).__init__()
-        # not the best model...
+        super(Agent, self).__init__()
+
         self.hparams = hparams
-        self.l1 = torch.nn.Linear(28 * 28, 10)
+        
+        self.
 
     def forward(self, x):
         return torch.relu(self.l1(x.view(x.size(0), -1)))
