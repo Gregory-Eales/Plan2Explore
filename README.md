@@ -3,8 +3,7 @@
  
 # Plan2Explore    
 
-ARXIV   
-[![Paper](http://img.shields.io/badge/arxiv-math.co:2005.05960.svg)](https://arxiv.org/pdf/2005.05960.pdf)
+[![Paper](https://img.shields.io/badge/Paper-arXiv%3A2005.05960-red.svg)](https://arxiv.org/pdf/2005.05960.pdf)
 
 
 </div>
