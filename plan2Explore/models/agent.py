@@ -1,6 +1,3 @@
-"""
-This file defines the core research contribution   
-"""
 import os
 import torch
 from torch.nn import functional as F
@@ -18,8 +15,7 @@ class Agent(pl.LightningModule):
         super(Agent, self).__init__()
 
         self.hparams = hparams
-        
-        self.
+       
 
     def forward(self, x):
         return torch.relu(self.l1(x.view(x.size(0), -1)))
