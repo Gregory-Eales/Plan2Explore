@@ -9,7 +9,7 @@
 </div>
  
 ## Description   
-pytorch implementation of the Plan2Expore algorithm
+pytorch implementation of the Plan2Expore algorithm for low dimensional observations
 
 ## How to run   
 First, install dependencies   
