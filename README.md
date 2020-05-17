@@ -9,7 +9,7 @@
 </div>
  
 ## Description   
-Implementation of the Plan2Expore algorithm
+pytorch implementation of the Plan2Expore algorithm
 
 ## How to run   
 First, install dependencies   
@@ -32,7 +32,6 @@ python run.py
 ```
 
 ## Baselines    
-List your baselines here.   
 - [Original Author Repo](https://github.com/ramanans1/plan2explore) 
 
 ### Source  
