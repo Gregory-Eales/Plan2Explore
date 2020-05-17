@@ -2,11 +2,16 @@ import os
 import torch
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
-from torchvision.datasets import MNIST
-import torchvision.transforms as transforms
 from argparse import ArgumentParser
 
 import pytorch_lightning as pl
+
+from .policy_net import PolicyNetwork
+from .value_net import ValueNetwork
+from .posterior_dynamics import PosteriorDynamics
+from .prior_dynamics import PriorDynamics
+from .reward_predictor import RewardPredictor
+
 
 
 class Agent(pl.LightningModule):
@@ -15,7 +20,15 @@ class Agent(pl.LightningModule):
         super(Agent, self).__init__()
 
         self.hparams = hparams
-       
+
+        self.policy_net = PolicyNetwork()
+        self.value_net = ValueNetwork()
+        self.posterior_net = PosteriorDynamics()
+        self.prior_net = PriorDynamics()
+        self.reward_net = RewardPredictor(in_dim, hid_dim, out_dim, num_hid)
+
+        self.image_encoder = None
+        self.image_decoder = None
 
     def forward(self, x):
         return torch.relu(self.l1(x.view(x.size(0), -1)))

@@ -8,6 +8,11 @@ from src.production_mnist.mnist import CoolSystem
 from torch.utils.data import DataLoader
 from torchvision.datasets import MNIST
 import torchvision.transforms as transforms
+import gym
+
+
+
+enve = gym.make("LunarLandarContinuous-v2")
 
 # sets seeds for numpy, torch, etc...
 # must do for DDP to work well

@@ -1,12 +1,12 @@
 import torch
 
 
-class ImageEncoder(torch.nn.Module):
+class PosteriorDynamics(torch.nn.Module):
 
 
 	def __init__(self):
 
-		super(ImageEncoder, self).__intit__()
+		super(PosteriorDynamics, self).__intit__()
 
 
 	def forward(self, x):
