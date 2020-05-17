@@ -1,37 +1,16 @@
-### pytorch-lightning-conference-seed
-Use this seed to refactor your PyTorch research code for:  
-- a paper submission  
-- a new research project.     
-
-[Read the usage instructions here](https://github.com/williamFalcon/pytorch-lightning-conference-seed/blob/master/HOWTO.md)
-
-#### Goals  
-The goal of this seed is to structure ML paper-code the same so that work can easily be extended and replicated.   
-
-###### DELETE EVERYTHING ABOVE FOR YOUR PROJECT   
 ---   
 <div align="center">    
  
-# Your Project Name     
+# Plan2Explore    
 
-[![Paper](http://img.shields.io/badge/paper-arxiv.1001.2234-B31B1B.svg)](https://www.nature.com/articles/nature14539)
-[![Conference](http://img.shields.io/badge/NeurIPS-2019-4b44ce.svg)](https://papers.nips.cc/book/advances-in-neural-information-processing-systems-31-2018)
-[![Conference](http://img.shields.io/badge/ICLR-2019-4b44ce.svg)](https://papers.nips.cc/book/advances-in-neural-information-processing-systems-31-2018)
-[![Conference](http://img.shields.io/badge/AnyConference-year-4b44ce.svg)](https://papers.nips.cc/book/advances-in-neural-information-processing-systems-31-2018)  
-<!--
 ARXIV   
-[![Paper](http://img.shields.io/badge/arxiv-math.co:1480.1111-B31B1B.svg)](https://www.nature.com/articles/nature14539)
--->
+[![Paper](http://img.shields.io/badge/arxiv-math.co:1480.1111-B31B1B.svg)](https://arxiv.org/pdf/2005.05960.pdf)
 
 
-
-<!--  
-Conference   
--->   
 </div>
  
 ## Description   
-What it does   
+Implementation of the Plan2Expore algorithm
 
 ## How to run   
 First, install dependencies   
@@ -50,24 +29,20 @@ pip install -r requirements.txt
 cd src/    
 
 # run module (example: mnist as your main contribution)   
-python simplest_mnist.py    
+python run.py    
 ```
-
-## Main Contribution      
-List your modules here. Each module contains all code for a full system including how to run instructions.   
-- [Production MNIST](https://github.com/PyTorchLightning/pytorch-lightning-conference-seed/tree/master/src/production_mnist)    
-- [Research MNIST](https://github.com/PyTorchLightning/pytorch-lightning-conference-seed/tree/master/src/research_mnist)  
 
 ## Baselines    
 List your baselines here.   
-- [Research MNIST](https://github.com/PyTorchLightning/pytorch-lightning-conference-seed/tree/master/src/research_mnist) 
+- [Original Author Repo](https://github.com/ramanans1/plan2explore) 
 
-### Citation   
+### Source  
 ```
-@article{YourName,
-  title={Your Title},
-  author={Your team},
-  journal={Location},
-  year={Year}
+@inproceedings{sekar20plan2explore,
+    Author = {Sekar, Ramanan and Rybkin, Oleh and Daniilidis, Kostas and
+              Abbeel, Pieter and Hafner, Danijar and Pathak, Deepak},
+    Title = {Planning to Explore via Self-Supervised World Models},
+    Booktitle = {},
+    Year = {2020}
 }
 ```   
