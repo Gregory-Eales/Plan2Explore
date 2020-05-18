@@ -1,13 +1,9 @@
 import pytorch_lightning as pl
-
-
 import os
 import torch
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from argparse import ArgumentParser
-
-import pytorch_lightning as pl
 
 from .policy_net import PolicyNetwork
 from .value_net import ValueNetwork
@@ -24,31 +20,14 @@ class WorldModel(pl.LightningModule):
         return torch.relu(self.l1(x.view(x.size(0), -1)))
 
     def training_step(self, batch, batch_idx):
-        
-        # STAGE 1: Dataset from Random Policy
-        if self.random_collection:
-            pass
+		
+		x, y = batch
+		y_hat = self.forward(x)
+		loss = F.cross_entropy(y_hat, y)
+		tensorboard_logs = {'train_loss': loss}
 
-        # STAGE 2: EXPLORE
-        if self.exploring:
-
-            # TRAIN WORLD MODEL (M) ON DATASET (D)
-
-            # TRAIN LATENT DISAGREEMENT ENSAMBLE (E) ON DATASET (D)
-
-            # TRAIN POLICY ON LATENT DISAGREEMENT REWARD IN IMAGINATION of M
-
-            # EXECUTE POLICY IN ENVIRONMENT TO EXPAND DATASET (D)
-
-
-            x, y = batch
-            y_hat = self.forward(x)
-            loss = F.cross_entropy(y_hat, y)
-
-            tensorboard_logs = {'train_loss': loss}
-
-            return {'loss': loss, 'log': tensorboard_logs}
-
+		return {'loss': loss, 'log': tensorboard_logs}	
+        	
     def validation_step(self, batch, batch_idx):
         # OPTIONAL
         x, y = batch
@@ -82,15 +61,11 @@ class WorldModel(pl.LightningModule):
 
     def train_dataloader(self):
         # REQUIRED
-        return DataLoader(MNIST(os.getcwd(), train=True, download=True, transform=transforms.ToTensor()), batch_size=self.hparams.batch_size)
-
-    def val_dataloader(self):
-        # OPTIONAL
-        return DataLoader(MNIST(os.getcwd(), train=True, download=True, transform=transforms.ToTensor()), batch_size=self.hparams.batch_size)
-
-    def test_dataloader(self):
-        # OPTIONAL
-        return DataLoader(MNIST(os.getcwd(), train=True, download=True, transform=transforms.ToTensor()), batch_size=self.hparams.batch_size)
+        """
+        return DataLoader(MNIST(os.getcwd(), train=True, download=True,
+         transform=transforms.ToTensor()), batch_size=self.hparams.batch_size)
+        """
+        pass
 
     @staticmethod
     def add_model_specific_args(parent_parser):
