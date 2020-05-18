@@ -24,18 +24,37 @@ class Agent(pl.LightningModule):
         self.image_encoder = None
         self.image_decoder = None
 
+    def act(self, s):
+        pass
+
     def forward(self, x):
         return torch.relu(self.l1(x.view(x.size(0), -1)))
 
     def training_step(self, batch, batch_idx):
-        # REQUIRED
-        x, y = batch
-        y_hat = self.forward(x)
-        loss = F.cross_entropy(y_hat, y)
+        
+        # STAGE 1: Dataset from Random Policy
+        if self.random_collection:
+            pass
 
-        tensorboard_logs = {'train_loss': loss}
+        # STAGE 2: EXPLORE
+        if self.exploring:
 
-        return {'loss': loss, 'log': tensorboard_logs}
+            # TRAIN WORLD MODEL (M) ON DATASET (D)
+
+            # TRAIN LATENT DISAGREEMENT ENSAMBLE (E) ON DATASET (D)
+
+            # TRAIN POLICY ON LATENT DISAGREEMENT REWARD IN IMAGINATION of M
+
+            # EXECUTE POLICY IN ENVIRONMENT TO EXPAND DATASET (D)
+
+
+            x, y = batch
+            y_hat = self.forward(x)
+            loss = F.cross_entropy(y_hat, y)
+
+            tensorboard_logs = {'train_loss': loss}
+
+            return {'loss': loss, 'log': tensorboard_logs}
 
     def validation_step(self, batch, batch_idx):
         # OPTIONAL
