@@ -4,45 +4,47 @@ This file runs the main training/val loop, etc... using Lightning Trainer
 import os
 from pytorch_lightning import Trainer, seed_everything
 from argparse import ArgumentParser
-from src.production_mnist.mnist import CoolSystem
-from torch.utils.data import DataLoader
-from torchvision.datasets import MNIST
 import torchvision.transforms as transforms
 import gym
 
-
-
-enve = gym.make("LunarLandarContinuous-v2")
-
-# sets seeds for numpy, torch, etc...
-# must do for DDP to work well
-seed_everything(123)
+from model.plan_2_explore import Plan2Explore
 
 def main(args):
-    # init module
-    model = CoolSystem(hparams=args)
-
-    train_loader = DataLoader(MNIST(os.getcwd(), train=True, download=True, transform=transforms.ToTensor()), batch_size=args.batch_size)
-    val_loader = DataLoader(MNIST(os.getcwd(), train=True, download=True, transform=transforms.ToTensor()), batch_size=args.batch_size)
-
-    # makes all flags available to trainer from cli
-    trainer = Trainer.from_argparse_args(args)
-    trainer.fit(model, train_loader, val_loader)
-
+    p2e = Plan2Explore(hparams=args)
+    p2e.plan_to_explore()
+    p2e.task_adaptation()
 
 if __name__ == '__main__':
-    parser = ArgumentParser(add_help=False)
 
-    # add args from trainer
-    parser = Trainer.add_argparse_args(parser)
+    seed_everything(0)
+    torch.manual_seed(0)
+    np.random.seed(0)
 
-    # give the module a chance to add own params
-    # good practice to define LightningModule speficic params in the module
-    parser = CoolSystem.add_model_specific_args(parser)
+    parser = ArgumentParser()
 
-    # parse params
+    # general params
+    parser.add_argument("--batch_size", type=int, default=64, help="size of training batch")
+    parser.add_argument("--lr", type=int, default=1e-3, help="learning rate")
+    parser.add_argument("--env", type=str, default="LunarLanderContinuous-v2", help="environment")
+    parser.add_argument("--warm_start_size", type=int, default=100, help="number of initial random steps")
+    parder.add_argument("--num_explore_steps", type=int, default=100, help="number exploration steps")
+    parder.add_argument("--num_episodes", type=int, default=200, help="number of episodes")
+    parser.add_argument("--episode_length", type=int, default=200, help="max length of an episode")
+
+    # replay buffer params
+    parser.add_argument("--replay_size", type=int, default=1000, help="max size of buffer")
+
+    # policy network params
+    parser.add_argument("--in_dim", type=int, default=1e-3, help="")
+    parser.add_argument("--in_dim", type=int, default=1e-3, help="")
+
+    # value network params
+
+    # rssm params
+
+
+    # run
     args = parser.parse_args()
-
     main(args)
 
 
