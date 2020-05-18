@@ -12,7 +12,7 @@ from .rssm import RSSM
 
 class Agent(pl.LightningModule):
 
-    def __init__(self, hparams, in_dim, out_dim):
+    def __init__(self, hparams=None, in_dim=None, out_dim=None):
         super(Agent, self).__init__()
 
         self.hparams = hparams
