@@ -4,7 +4,7 @@ import torch
 class PolicyNetwork(torch.nn.Module):
 
 
-	def __init__(self, in_dim, hid_dim, out_dim, num_hid):
+	def __init__(self, in_dim, hid_dim, out_dim, num_hid=128):
 
 		super(PolicyNetwork, self).__init__()
 

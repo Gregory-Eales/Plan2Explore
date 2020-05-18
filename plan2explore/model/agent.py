@@ -21,9 +21,9 @@ class Agent(pl.LightningModule):
 
         self.hparams = hparams
 
-        self.policy_net = PolicyNetwork()
-        self.value_net = ValueNetwork()
-        self.posterior_net = PosteriorDynamics()
+        self.policy_net = PolicyNetwork(hparams.policy_network)
+        self.value_net = ValueNetwork(hparams.value_network)
+        self.rssm = PosteriorDynamics()
         self.prior_net = PriorDynamics()
         self.reward_net = RewardPredictor(in_dim, hid_dim, out_dim, num_hid)
 

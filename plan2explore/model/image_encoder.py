@@ -15,8 +15,6 @@ class ImageEncoder(torch.nn.Module):
 	def define_network(self):
 		pass
 
-
-
 	def forward(self, x):
 
 		out = torch.Tensor(x)

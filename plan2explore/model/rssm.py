@@ -1,11 +1,13 @@
 import torch
 
 
-class RewardPredictor(torch.nn.Module):
+
+class RSSM(torch.nn.Module):
+
 
 	def __init__(self, in_dim, hid_dim, out_dim, num_hid):
 
-		super(RewardPredictor, self).__init__()
+		super(RSSM, self).__init__()
 
 		self.in_dim = in_dim
 		self.hid_dim = hid_dim
@@ -42,11 +44,9 @@ class RewardPredictor(torch.nn.Module):
 		pass
 
 def main():
-	rp = RewardPredictor(3, 3, 3, 5)
-	rp.forward(None)
+	p = Policy(3, 3, 3, 5)
+	p.forward(torch.ones(10, 3))
 
 
 if __name__ == "__main__":
 	main()
-
-		
