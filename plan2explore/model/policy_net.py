@@ -4,7 +4,7 @@ import torch
 class PolicyNetwork(torch.nn.Module):
 
 
-	def __init__(self, in_dim, hid_dim, out_dim, num_hid=128):
+	def __init__(self, in_dim, out_dim, hid_dim=128, num_hid=1):
 
 		super(PolicyNetwork, self).__init__()
 
@@ -43,7 +43,7 @@ class PolicyNetwork(torch.nn.Module):
 		pass
 
 def main():
-	p = Policy(3, 3, 3, 5)
+	p = PolicyNetwork(3, 3, 3, 5)
 	p.forward(torch.ones(10, 3))
 
 

@@ -8,24 +8,18 @@ import pytorch_lightning as pl
 
 from .policy_net import PolicyNetwork
 from .value_net import ValueNetwork
-from .posterior_dynamics import PosteriorDynamics
-from .prior_dynamics import PriorDynamics
-from .reward_predictor import RewardPredictor
-
-
+from .rssm import RSSM
 
 class Agent(pl.LightningModule):
 
-    def __init__(self, hparams):
+    def __init__(self, hparams, in_dim, out_dim):
         super(Agent, self).__init__()
 
         self.hparams = hparams
 
-        self.policy_net = PolicyNetwork(hparams.policy_network)
-        self.value_net = ValueNetwork(hparams.value_network)
-        self.rssm = PosteriorDynamics()
-        self.prior_net = PriorDynamics()
-        self.reward_net = RewardPredictor(in_dim, hid_dim, out_dim, num_hid)
+        self.policy_net = PolicyNetwork(in_dim=in_dim, out_dim=out_dim)
+        self.value_net = ValueNetwork(in_dim=in_dim, out_dim=out_dim)
+        self.rssm = RSSM(in_dim=in_dim, out_dim=out_dim)
 
         self.image_encoder = None
         self.image_decoder = None

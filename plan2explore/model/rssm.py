@@ -5,7 +5,7 @@ import torch
 class RSSM(torch.nn.Module):
 
 
-	def __init__(self, in_dim, hid_dim, out_dim, num_hid):
+	def __init__(self, in_dim, out_dim, hid_dim, num_hid):
 
 		super(RSSM, self).__init__()
 
