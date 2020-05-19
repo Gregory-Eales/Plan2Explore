@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from .agent import Agent
 from .replay_buffer import ReplayBuffer
 from .world_model import WorldModel
-from .latent_disagreement_ensamble import LDE
+from .disagreement_ensamble import LDE
 
 
 class Plan2Explore(object):
@@ -22,7 +22,7 @@ class Plan2Explore(object):
 
 		self.replay_buffer = ReplayBuffer(self.hparams, self.obs_dim, self.act_dim)
 		self.world_model = WorldModel(self.hparams, self.obs_dim, self.act_dim)
-		#self.lde = LDE(self.hparams)
+		self.de = DE(self.hparams)
 
 		# exploration actor critic
 		#self.exp_actor_critic = Agent(self.hparams)
@@ -31,10 +31,10 @@ class Plan2Explore(object):
 		#self.task_actor_critic = Agent(self.hparams)
 
 		# trainers
-		self.world_model_trainer = pl.Trainer(gpus=self.hparams.gpu)
-		self.lde_trainer = pl.Trainer(gpus=self.hparams.gpu)
-		self.exp_ac_trainer = pl.Trainer(gpus=self.hparams.gpu)
-		self.task_ac_trainer = pl.Trainer(gpus=self.hparams.gpu)
+		self.world_model_trainer = pl.Trainer(gpus=self.hparams.gpu, max_epochs=self.hparams.num_epochs)
+		self.de_trainer = pl.Trainer(gpus=self.hparams.gpu, max_epochs=self.hparams.num_epochs)
+		self.exp_ac_trainer = pl.Trainer(gpus=self.hparams.gpu, max_epochs=self.hparams.num_epochs)
+		self.task_ac_trainer = pl.Trainer(gpus=self.hparams.gpu, max_epochs=self.hparams.num_epochs)
 
 	def plan_to_explore(self):
 
@@ -44,7 +44,7 @@ class Plan2Explore(object):
 			
 			self.fit_world_model()
 
-			#self.fit_lde()
+			self.fit_lde()
 
 			#self.fit_exp_ac()
 

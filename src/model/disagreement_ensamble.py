@@ -1,24 +1,57 @@
 import torch
 import pytorch_lightning as pl
 
-class LDE(pl.LightningModule):
+class DE(pl.LightningModule):
 
-	def __init__(self, hparams):
+	def __init__(self, hparams, obs_dim, act_dim):
+		super(DE, self).__init__()
 
-		super(LDE, self).__init__()
+		self.obs_dim = obs_dim
+		self.hparams = hparams
+
+		self.in_dim = obs_dim + act_dim
+		self.out_dim = obs_dim 
+		self.hid_dim = hparams.world_model_hid_dim
+		self.num_hid = hparams.world_model_num_hid
+
+		self.layer = torch.nn.ModuleDict()
+		
+		self.define_network()
+
+	def define_network(self):
+
+		self.layer["l1"] = torch.nn.Linear(self.in_dim, self.hid_dim)
+		
+		for i in range(2, self.num_hid+2):
+			self.layer["l{}".format(i)] = torch.nn.Linear(self.hid_dim, self.hid_dim)
+
+		self.layer["l{}".format(self.num_hid+2)] = torch.nn.Linear(self.hid_dim, self.out_dim)
+
+		self.leaky_relu = torch.nn.LeakyReLU()
 
 	def forward(self, x):
-		pass
+
+		out = torch.Tensor(x)
+		
+		for key in self.layer.keys():
+			out = self.layer[key](out)
+			out = self.leaky_relu(out)
+
+		return out
 
 	def training_step(self, batch, batch_idx):
 		
-		x, y = batch
-		y_hat = self.forward(x)
-		loss = F.cross_entropy(y_hat, y)
+		s, a, _, n_s, _ = batch
+
+		x = torch.cat([s, a], dim=1)
+
+		prediction = self.forward(x)
+		loss = F.mse_loss(prediction, n_s)
 		tensorboard_logs = {'train_loss': loss}
 
 		return {'loss': loss, 'log': tensorboard_logs}	
-			
+	
+	"""
 	def validation_step(self, batch, batch_idx):
 		# OPTIONAL
 		x, y = batch
@@ -44,11 +77,12 @@ class LDE(pl.LightningModule):
 
 		tensorboard_logs = {'test_val_loss': avg_loss}
 		return {'test_loss': avg_loss, 'log': tensorboard_logs}
+	"""
 
 	def configure_optimizers(self):
 		# REQUIRED
 		# can return multiple optimizers and learning_rate schedulers
-		return torch.optim.Adam(self.parameters(), lr=self.hparams.learning_rate)
+		return torch.optim.Adam(self.parameters(), lr=self.hparams.lr)
 
 	def train_dataloader(self):
 		# REQUIRED
