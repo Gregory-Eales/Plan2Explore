@@ -27,13 +27,16 @@ cd Plan2Explore
 pip install -e .   
 pip install -r requirements.txt
  ```   
- Next, navigate to plan2explore and run it.   
+ Next, navigate to plan2explore, train and then run it.   
  ```bash
 # module folder
 cd src/    
 
-# run module
-python run.py    
+# train model
+python train.py
+
+# run model
+python run.py
 ```
 
 
