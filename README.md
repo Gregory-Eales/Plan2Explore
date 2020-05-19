@@ -36,10 +36,13 @@ cd src/
 python run.py    
 ```
 
-## Baselines    
-- [Original Author Repo](https://github.com/ramanans1/plan2explore) 
+
+## Results
+
 
 ### Source  
+- [Original Author Repo](https://github.com/ramanans1/plan2explore) 
+
 ```
 @inproceedings{sekar20plan2explore,
     Author = {Sekar, Ramanan and Rybkin, Oleh and Daniilidis, Kostas and
