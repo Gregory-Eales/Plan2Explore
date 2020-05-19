@@ -11,6 +11,11 @@
 ## Description   
 pytorch implementation of the Plan2Expore algorithm for environments with low dimensional observations
 
+### Differences from the Original
+
+- adapted impementation for low dimensional observations(no RSSM, Encoder, Decoder, Latent Space)
+- disagreement ensamble is made up of state transition models DE(s_t, a) -> s_t+1
+
 ## How to run   
 First, install dependencies   
 ```bash
