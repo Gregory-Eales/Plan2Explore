@@ -11,6 +11,11 @@
 ## Description   
 pytorch implementation of the Plan2Expore algorithm for environments with low dimensional observations
 
+### Differences from the Original
+
+- adapted impementation for low dimensional observations(no RSSM, Encoder, Decoder, Latent Space)
+- disagreement ensamble is made up of state transition models DE(s_t, a) -> s_t+1
+
 ## How to run   
 First, install dependencies   
 ```bash
@@ -22,19 +27,25 @@ cd Plan2Explore
 pip install -e .   
 pip install -r requirements.txt
  ```   
- Next, navigate to plan2explore and run it.   
+ Next, navigate to plan2explore, train and then run it.   
  ```bash
 # module folder
 cd src/    
 
-# run module
-python run.py    
+# train model
+python train.py
+
+# run model
+python run.py
 ```
 
-## Baselines    
-- [Original Author Repo](https://github.com/ramanans1/plan2explore) 
+
+## Results
+
 
 ### Source  
+- [Original Author Repo](https://github.com/ramanans1/plan2explore) 
+
 ```
 @inproceedings{sekar20plan2explore,
     Author = {Sekar, Ramanan and Rybkin, Oleh and Daniilidis, Kostas and
