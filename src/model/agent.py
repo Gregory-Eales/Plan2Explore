@@ -8,7 +8,7 @@ import pytorch_lightning as pl
 
 from .policy_net import PolicyNetwork
 from .value_net import ValueNetwork
-from .rssm import RSSM
+
 
 class Agent(pl.LightningModule):
 

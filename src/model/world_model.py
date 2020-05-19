@@ -5,9 +5,6 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from argparse import ArgumentParser
 
-from .policy_net import PolicyNetwork
-from .value_net import ValueNetwork
-from .rssm import RSSM
 
 class WorldModel(pl.LightningModule):
 
@@ -53,12 +50,15 @@ class WorldModel(pl.LightningModule):
 
 		"""
 		print("##########")
+		print("##########")
 		print(a.shape)
 		print(s.shape)
+		print("##########")
 		print("##########")
 		"""
 
 		x = torch.cat([s, a], dim=1)
+
 		prediction = self.forward(x)
 		loss = F.mse_loss(prediction, n_s)
 		tensorboard_logs = {'train_loss': loss}
