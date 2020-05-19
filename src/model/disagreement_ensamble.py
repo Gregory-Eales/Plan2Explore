@@ -13,21 +13,16 @@ class DE(pl.LightningModule):
 		self.out_dim = obs_dim 
 		self.hid_dim = hparams.world_model_hid_dim
 		self.num_hid = hparams.world_model_num_hid
+		self.num_ensambles = hparams.num_ensambles
 
-		self.layer = torch.nn.ModuleDict()
+		self.world_models = torch.nn.ModuleDict()
 		
 		self.define_network()
 
-	def define_network(self):
-
-		self.layer["l1"] = torch.nn.Linear(self.in_dim, self.hid_dim)
+	def define_networks(self):
 		
 		for i in range(2, self.num_hid+2):
 			self.layer["l{}".format(i)] = torch.nn.Linear(self.hid_dim, self.hid_dim)
-
-		self.layer["l{}".format(self.num_hid+2)] = torch.nn.Linear(self.hid_dim, self.out_dim)
-
-		self.leaky_relu = torch.nn.LeakyReLU()
 
 	def forward(self, x):
 
