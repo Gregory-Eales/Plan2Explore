@@ -4,7 +4,7 @@ import torch
 class ValueNetwork(torch.nn.Module):
 
 
-	def __init__(self, in_dim=3, out_dim=3, hparams=None):
+	def __init__(self, in_dim=3, out_dim=1, hparams=None):
 
 		super(ValueNetwork, self).__init__()
 

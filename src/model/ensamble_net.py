@@ -1,32 +1,32 @@
 import torch
-import pytorch_lightning as pl
 
-from .ensamble_net import EnsambleNetwork
 
-class DE(pl.LightningModule):
+class EnsambleNetwork(torch.nn.Module):
 
-	def __init__(self, hparams, obs_dim, act_dim):
-		super(DE, self).__init__()
 
-		self.obs_dim = obs_dim
-		self.hparams = hparams
+	def __init__(self, in_dim=3, out_dim=1, hparams=None):
 
-		self.in_dim = obs_dim + act_dim
-		self.out_dim = obs_dim 
-		self.hid_dim = hparams.world_model_hid_dim
-		self.num_hid = hparams.world_model_num_hid
-		self.num_ensambles = hparams.num_ensambles
+		super(EnsambleNetwork, self).__init__()
 
-		self.ensamble_networks = torch.nn.ModuleDict()
+		self.in_dim = in_dim
+		self.hid_dim = hid_dim
+		self.out_dim = out_dim
+		self.num_hid = num_hid
+
+		self.layer = torch.nn.ModuleDict()
 		
-		self.define_networks()
+		self.define_network()
 
-	def define_networks(self):
+	def define_network(self):
+
+		self.layer["l1"] = torch.nn.Linear(self.in_dim, self.hid_dim)
 		
-		for i in range(self.num_ensambles):
+		for i in range(2, self.num_hid+2):
+			self.layer["l{}".format(i)] = torch.nn.Linear(self.hid_dim, self.hid_dim)
 
-			self.ensamble_networks["E{}".format(i)] = EnsambleNetwork(hparams, )
-			
+		self.layer["l{}".format(self.num_hid+2)] = torch.nn.Linear(self.hid_dim, self.out_dim)
+
+		self.leaky_relu = torch.nn.LeakyReLU()
 
 	def forward(self, x):
 
@@ -38,19 +38,19 @@ class DE(pl.LightningModule):
 
 		return out
 
+
+	def loss(self):
+		pass
+
 	def training_step(self, batch, batch_idx):
 		
-		s, a, _, n_s, _ = batch
-
-		x = torch.cat([s, a], dim=1)
-
-		prediction = self.forward(x)
-		loss = F.mse_loss(prediction, n_s)
+		x, y = batch
+		y_hat = self.forward(x)
+		loss = F.cross_entropy(y_hat, y)
 		tensorboard_logs = {'train_loss': loss}
 
 		return {'loss': loss, 'log': tensorboard_logs}	
-	
-	"""
+			
 	def validation_step(self, batch, batch_idx):
 		# OPTIONAL
 		x, y = batch
@@ -76,12 +76,11 @@ class DE(pl.LightningModule):
 
 		tensorboard_logs = {'test_val_loss': avg_loss}
 		return {'test_loss': avg_loss, 'log': tensorboard_logs}
-	"""
 
 	def configure_optimizers(self):
 		# REQUIRED
 		# can return multiple optimizers and learning_rate schedulers
-		return torch.optim.Adam(self.parameters(), lr=self.hparams.lr)
+		return torch.optim.Adam(self.parameters(), lr=self.hparams.learning_rate)
 
 	def train_dataloader(self):
 		# REQUIRED
@@ -105,3 +104,11 @@ class DE(pl.LightningModule):
 		parser.add_argument('--max_nb_epochs', default=2, type=int)
 
 		return parser
+
+def main():
+	p = ValueNetwork(3, 3, 3, 5)
+	p.forward(torch.ones(10, 3))
+
+
+if __name__ == "__main__":
+	main()

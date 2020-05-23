@@ -37,6 +37,8 @@ if __name__ == '__main__':
 	parser.add_argument("--episode_length", type=int, default=200, help="max length of an episode")
 	parser.add_argument("--num_explorations", type=int, default=5, help="number of explorations")
 	parser.add_argument("--accumulate_grad_batches", type=int, default=64, help="grad batches")
+
+	parser.add_argument("--num_ensambles", type=int, default=3, help="number of models in ensamble")
 	
 
 	parser.add_argument("--world_model_hid_dim", type=int, default=12, help="world model hidden dimension")

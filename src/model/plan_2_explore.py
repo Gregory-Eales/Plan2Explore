@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from .agent import Agent
 from .replay_buffer import ReplayBuffer
 from .world_model import WorldModel
-from .disagreement_ensamble import LDE
+from .disagreement_ensamble import DE
 
 
 class Plan2Explore(object):
@@ -22,7 +22,7 @@ class Plan2Explore(object):
 
 		self.replay_buffer = ReplayBuffer(self.hparams, self.obs_dim, self.act_dim)
 		self.world_model = WorldModel(self.hparams, self.obs_dim, self.act_dim)
-		self.de = DE(self.hparams)
+		self.de = DE(self.hparams, self.obs_dim, self.act_dim)
 
 		# exploration actor critic
 		#self.exp_actor_critic = Agent(self.hparams)
@@ -44,7 +44,7 @@ class Plan2Explore(object):
 			
 			self.fit_world_model()
 
-			self.fit_lde()
+			self.fit_de()
 
 			#self.fit_exp_ac()
 
@@ -105,8 +105,8 @@ class Plan2Explore(object):
 
 		self.world_model_trainer.fit(self.world_model, train_dataloader=dl)
 
-	def fit_lde(self):
-		self.lde_trainer.fit(self.lde, train_dataloader=self.replay_buffer)
+	def fit_de(self):
+		self.de_trainer.fit(self.de, train_dataloader=self.replay_buffer)
 
 	def fit_exp_ac(self):
 		self.exp_ac_trainer.fit(self.exp_actor_critic, train_dataloader=self.replay_buffer)
