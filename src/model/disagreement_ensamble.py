@@ -5,14 +5,16 @@ from .ensamble_net import EnsambleNetwork
 
 class DE(pl.LightningModule):
 
-	def __init__(self, hparams, obs_dim, act_dim):
+	def __init__(self, hparams):
 		super(DE, self).__init__()
 
-		self.obs_dim = obs_dim
+		self.obs_dim = self.hparams.observation_size
+		self.act_dim = self.hparams.action_size
+		
 		self.hparams = hparams
 
-		self.in_dim = obs_dim + act_dim
-		self.out_dim = obs_dim 
+		self.in_dim = self.obs_dim + self.act_dim
+		self.out_dim = self.obs_dim 
 		self.hid_dim = hparams.world_model_hid_dim
 		self.num_hid = hparams.world_model_num_hid
 		self.num_ensambles = hparams.num_ensambles
@@ -25,10 +27,11 @@ class DE(pl.LightningModule):
 		
 		for i in range(self.num_ensambles):
 
-			self.ensamble_networks["E{}".format(i)] = EnsambleNetwork(hparams, )
+			self.ensamble_networks["E{}".format(i)] = EnsambleNetwork(self.hparams)
 			
+	def forward(self, observation, aciton):
 
-	def forward(self, x):
+		x = torch.cat([observation, action], dim=1)
 
 		out = torch.Tensor(x)
 		
