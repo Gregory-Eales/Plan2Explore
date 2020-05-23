@@ -19,6 +19,7 @@ class Plan2Explore(object):
 		self.obs_dim = self.env.observation_space.shape[0]
 		self.act_dim = self.env.action_space.shape[0]
 
+		self.hparams = add_model_specific_args(hparams, self.obs_dim, self.act_dim)
 
 		self.replay_buffer = ReplayBuffer(self.hparams, self.obs_dim, self.act_dim)
 		self.world_model = WorldModel(self.hparams, self.obs_dim, self.act_dim)
@@ -116,3 +117,18 @@ class Plan2Explore(object):
 
 	def explore_env(self):
 		pass
+
+	@staticmethod
+	def add_model_specific_args(parent_parser, obs_sz, act_sz):
+		"""
+		Specify the hyperparams for this LightningModule
+		"""
+		# MODEL specific
+		parser = ArgumentParser(parents=[parent_parser], add_help=False)
+		parser.add_argument('--observation_size', default=obs_sz, type=float)
+		parser.add_argument('--action_size', default=act_sz, type=int)
+
+		# training specific (for this model)
+		parser.add_argument('--max_nb_epochs', default=2, type=int)
+
+		return parser
