@@ -21,7 +21,7 @@ class Plan2Explore(object):
 
 		self.hparams = add_model_specific_args(hparams, self.obs_dim, self.act_dim)
 
-		self.replay_buffer = ReplayBuffer(self.hparams, self.obs_dim, self.act_dim)
+		self.replay_buffer = ReplayBuffer(self.hparams)
 		self.world_model = WorldModel(self.hparams, self.obs_dim, self.act_dim)
 		self.de = DE(self.hparams, self.obs_dim, self.act_dim)
 
@@ -73,9 +73,30 @@ class Plan2Explore(object):
 
 			state = self.env.reset()
 
-			for s in range(self.hparams.num_explore_steps):
+			for _ in range(self.hparams.num_explore_steps):
 
 				action = self.env.action_space.sample()
+
+				next_state, reward, terminal, info = self.env.step(action)
+
+				self.replay_buffer.store(state, action, reward, next_state, terminal)
+
+				state = next_state
+
+				if terminal:
+					break
+
+		pass
+
+	def explore_env(self):
+		
+		for e in range(self.hparams.num_explore_episodes):
+
+			state = self.env.reset()
+
+			for _ in range(self.hparams.num_explore_steps):
+
+				action = self.exp_actor_critic.act(state)
 
 				next_state, reward, terminal, info = self.env.step(action)
 
@@ -103,20 +124,19 @@ class Plan2Explore(object):
 	def fit_world_model(self):
 
 		dl = DataLoader(self.replay_buffer, batch_size=self.hparams.batch_size)
-
 		self.world_model_trainer.fit(self.world_model, train_dataloader=dl)
 
 	def fit_de(self):
+		dl = DataLoader(self.replay_buffer, batch_size=self.hparams.batch_size)
 		self.de_trainer.fit(self.de, train_dataloader=self.replay_buffer)
 
 	def fit_exp_ac(self):
+		dl = DataLoader(self.replay_buffer, batch_size=self.hparams.batch_size)
 		self.exp_ac_trainer.fit(self.exp_actor_critic, train_dataloader=self.replay_buffer)
 
 	def fit_task_ac(self):
+		dl = DataLoader(self.replay_buffer, batch_size=self.hparams.batch_size)
 		self.task_ac_trainer.fit(self.task_actor_critic, train_dataloader=self.replay_buffer)
-
-	def explore_env(self):
-		pass
 
 	@staticmethod
 	def add_model_specific_args(parent_parser, obs_sz, act_sz):
