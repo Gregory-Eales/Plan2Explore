@@ -4,14 +4,16 @@ import torch
 class PolicyNetwork(torch.nn.Module):
 
 
-	def __init__(self, in_dim, out_dim, hid_dim=128, num_hid=1):
+	def __init__(self, hparams):
 
 		super(PolicyNetwork, self).__init__()
 
-		self.in_dim = in_dim
-		self.hid_dim = hid_dim
-		self.out_dim = out_dim
-		self.num_hid = num_hid
+		self.hparams = hparams
+
+		self.in_dim = self.hparams.in_dim
+		self.hid_dim = self.hparams.hid_dim
+		self.out_dim = self.hparams.out_dim
+		self.num_hid = self.hparams.num_hid
 
 		self.layer = torch.nn.ModuleDict()
 		
